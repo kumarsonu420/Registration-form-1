@@ -67,7 +67,7 @@ app.post("/login",async(req, res)=>{
 
         const useremail = await Register.findOne({email:email});
     
-//hasing of login 
+// hasing of login 
 
         const isMatch= await bcrypt.compare(password, useremail.password)
         
