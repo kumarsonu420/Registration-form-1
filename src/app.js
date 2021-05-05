@@ -4,7 +4,7 @@ const path= require("path")
 const hbs =require("hbs")
 require("./db/conn")
 const Register= require("./models/registers");
-const { resourceUsage } = require("process");
+const bcrypt = require("bcryptjs");
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
@@ -37,20 +37,20 @@ app.get("/login",(req,res) =>{
 
 app.post("/register",async(req,res) =>{
     try{
-        const Password = req.body.password
+        const password = req.body.password
         const cpassword= req.body.confirmpassword;
-        if(Password === cpassword)
+        if(password === cpassword)
         {
             const registrationStudent= new Register({
                 name: req.body.name,
                 email: req.body.email,
-                password:Password,
+                password:password,
                 confirmpassword:cpassword,                
             })
             console.log(registrationStudent.save());
             res.status(201).render("index")
         }else{
-            console.log(res.send("Password not match"));
+            console.log(res.send("Password not matcp"));
         }
     }catch(e)
     {
@@ -58,7 +58,7 @@ app.post("/register",async(req,res) =>{
     }
 })
 
-//login
+//login check
 
 app.post("/login",async(req, res)=>{
     try{
@@ -67,8 +67,11 @@ app.post("/login",async(req, res)=>{
 
         const useremail = await Register.findOne({email:email});
     
+//hasing of login 
+
+        const isMatch= await bcrypt.compare(password, useremail.password)
         
-       if(useremail.password === password)
+       if(isMatch)
        {
            res.status(201).render("index");
        }else{

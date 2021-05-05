@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs")
+
+
 const studentSchema= new mongoose.Schema({
 
         name:{
@@ -22,16 +24,21 @@ const studentSchema= new mongoose.Schema({
     },
 })
 
-// studentSchema.pre("save", async function(next)
-// {
-//     if(this.isModified("Password"))
-//     {
-//         console.log(`this is current password is ${this.Password}`)
-//         this.Password = await bcrypt.hash(this.Password,10)
-//         console.log(`this is current password is ${this.Password}`)
-//     }
-//     next();
-// })
+//Hashing password 
+
+studentSchema.pre("save", async function(next)
+{
+    if(this.isModified("password"))
+    {
+        console.log(`this is current password is ${this.password}`)
+        this.password = await bcrypt.hash(this.password,10)
+        console.log(`this is current passwordis ${this.password}`)
+
+        //cpassword is undefined because of it should not shown on database
+        this.confirmpassword= undefined
+    }
+    next();
+})
 
 //create collection
 
