@@ -1,12 +1,19 @@
 
 
-	Requirements	
--------------------------------------------------------------
+	Requirements
 
 Node.js(http://nodejs.org/)
 MongoDB(https://www.mongodb.com/)
 MongoDB compass(https://www.mongodb.com/products/compass)
 
+
+This project uses the following technologies:
+------------------------------------
+
+HTML, CSS, JS for frontend
+Express and Node for the backend
+MongoDB for the database
+Bcrypt for bcrypt password
 
 	Setup
 ---------------------------------------------------
